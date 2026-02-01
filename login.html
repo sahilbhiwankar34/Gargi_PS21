@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideSmart | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/auth.css">
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <div class="auth-container">
+        <!-- Left Panel - Branding -->
+        <div class="auth-branding">
+            <div class="branding-content">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="logo/logo.png" alt="RideSmart" class="logo-img">
+                    </a>
+                </div>
+                <h1>Go anywhere with <br>RideSmart</h1>
+                <p>Smart taxi assignment with traffic-aware routing. Get to your destination faster.</p>
+                <div class="features">
+                    <div class="feature">
+                        <span class="feature-icon">🚀</span>
+                        <span>Fastest pickup times</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🛣️</span>
+                        <span>Traffic-aware routes</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">💰</span>
+                        <span>Transparent pricing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Login Form -->
+        <div class="auth-form-panel">
+            <div class="auth-form-container">
+                <!-- Login Form -->
+                <div class="auth-form" id="loginForm">
+                    <h2>Welcome back</h2>
+                    <p class="form-subtitle">Enter your credentials to continue</p>
+
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="password-input">
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                                <button type="button" class="toggle-password"
+                                    onclick="togglePassword('loginPassword')">👁️</button>
+                            </div>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rememberMe">
+                                <span>Remember me</span>
+                            </label>
+                            <a href="#" onclick="showForgotPassword()" class="forgot-link">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="loginBtn">
+                            <span class="btn-text">Sign in</span>
+                            <span class="btn-loader"></span>
+                        </button>
+                    </form>
+
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
+
+                    <button class="btn-social google" onclick="handleGoogleSignIn()">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4"
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                            <path fill="#34A853"
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                            <path fill="#FBBC05"
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                            <path fill="#EA4335"
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                        </svg>
+                        Continue with Google
+                    </button>
+
+                    <!-- Google One Tap container -->
+                    <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                        data-callback="handleGoogleCredential" data-auto_prompt="false">
+                    </div>
+
+                    <p class="auth-switch">
+                        Don't have an account? <a href="#" onclick="showRegister()">Sign up</a>
+                    </p>
+                </div>
+
+                <!-- Register Form -->
+                <div class="auth-form hidden" id="registerForm">
+                    <h2>Create account</h2>
+                    <p class="form-subtitle">Join RideSmart for smarter rides</p>
+
+                    <form onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="registerName" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="registerEmail" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone (Optional)</label>
+                            <input type="tel" id="registerPhone" placeholder="+91 9876543210">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Password</label>
+                            <div class="password-input">
+                                <input type="password" id="registerPassword" placeholder="Min. 8 characters" required
+                                    minlength="8">
+                                <button type="button" class="toggle-password"
+                                    onclick="togglePassword('registerPassword')">👁️</button>
+                            </div>
+                            <div class="password-strength" id="passwordStrength"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
+                                        Policy</a></span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="registerBtn">
+                            <span class="btn-text">Create Account</span>
+                            <span class="btn-loader"></span>
+                        </button>
+                    </form>
+
+                    <p class="auth-switch">
+                        Already have an account? <a href="#" onclick="showLogin()">Sign in</a>
+                    </p>
+                </div>
+
+                <!-- OTP Verification Form -->
+                <div class="auth-form hidden" id="otpForm">
+                    <button class="back-btn" onclick="showLogin()">← Back</button>
+                    <h2>Verify your email</h2>
+                    <p class="form-subtitle">Enter the 6-digit code sent to<br><strong
+                            id="otpEmail">email@example.com</strong></p>
+
+                    <form onsubmit="handleVerifyOTP(event)">
+                        <div class="otp-inputs">
+                            <input type="text" maxlength="1" class="otp-input" data-index="0" autofocus>
+                            <input type="text" maxlength="1" class="otp-input" data-index="1">
+                            <input type="text" maxlength="1" class="otp-input" data-index="2">
+                            <input type="text" maxlength="1" class="otp-input" data-index="3">
+                            <input type="text" maxlength="1" class="otp-input" data-index="4">
+                            <input type="text" maxlength="1" class="otp-input" data-index="5">
+                        </div>
+
+                        <div class="otp-timer">
+                            <span id="timerText">Code expires in </span>
+                            <span id="timerCount">10:00</span>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="verifyBtn">
+                            <span class="btn-text">Verify</span>
+                            <span class="btn-loader"></span>
+                        </button>
+                    </form>
+
+                    <p class="resend-otp">
+                        Didn't receive the code? <a href="#" onclick="handleResendOTP()" id="resendLink">Resend</a>
+                    </p>
+                </div>
+
+                <!-- Forgot Password Form -->
+                <div class="auth-form hidden" id="forgotForm">
+                    <button class="back-btn" onclick="showLogin()">← Back</button>
+                    <h2>Reset password</h2>
+                    <p class="form-subtitle">Enter your email to receive a reset code</p>
+
+                    <form onsubmit="handleForgotPassword(event)">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="forgotEmail" placeholder="Enter your email" required>
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="forgotBtn">
+                            <span class="btn-text">Send Reset Code</span>
+                            <span class="btn-loader"></span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Reset Password Form -->
+                <div class="auth-form hidden" id="resetForm">
+                    <button class="back-btn" onclick="showLogin()">← Back</button>
+                    <h2>Create new password</h2>
+                    <p class="form-subtitle">Enter the OTP and your new password</p>
+
+                    <form onsubmit="handleResetPassword(event)">
+                        <div class="otp-inputs small">
+                            <input type="text" maxlength="1" class="otp-input reset-otp" data-index="0">
+                            <input type="text" maxlength="1" class="otp-input reset-otp" data-index="1">
+                            <input type="text" maxlength="1" class="otp-input reset-otp" data-index="2">
+                            <input type="text" maxlength="1" class="otp-input reset-otp" data-index="3">
+                            <input type="text" maxlength="1" class="otp-input reset-otp" data-index="4">
+                            <input type="text" maxlength="1" class="otp-input reset-otp" data-index="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <div class="password-input">
+                                <input type="password" id="newPassword" placeholder="Min. 8 characters" required
+                                    minlength="8">
+                                <button type="button" class="toggle-password"
+                                    onclick="togglePassword('newPassword')">👁️</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirm password" required
+                                minlength="8">
+                        </div>
+
+                        <button type="submit" class="btn-primary" id="resetBtn">
+                            <span class="btn-text">Reset Password</span>
+                            <span class="btn-loader"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/auth.js"></script>
+</body>
+
+</html>
